@@ -121,7 +121,11 @@ class SigmoidLayer(Layer):
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        # Stable sigmoid: avoid exp overflow for large positive or negative x.
+        x_clip = np.clip(x, -500, 500)
+        out = 1.0 / (1.0 + np.exp(-x_clip))
+        self._cache_current = out
+        return out
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -144,7 +148,8 @@ class SigmoidLayer(Layer):
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        sig = self._cache_current
+        return grad_z * sig * (1.0 - sig)
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -179,7 +184,8 @@ class ReluLayer(Layer):
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        self._cache_current = x
+        return np.maximum(0, x)
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -202,7 +208,7 @@ class ReluLayer(Layer):
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        return grad_z * (self._cache_current > 0)
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -233,8 +239,8 @@ class LinearLayer(Layer):
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        self._W = None # Need to initialise this
-        self._b = None # Need to initialise this
+        self._W = xavier_init((n_in, n_out))
+        self._b = np.zeros((1, n_out))
 
         self._cache_current = None
         self._grad_W_current = None
@@ -260,7 +266,8 @@ class LinearLayer(Layer):
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        self._cache_current = x
+        return x @ self._W + self._b
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -286,7 +293,12 @@ class LinearLayer(Layer):
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        x = self._cache_current
+        # grad_z is already scaled by the loss (mean over the batch), so these
+        # sums are the correct parameter gradients. Do not divide again.
+        self._grad_W_current = x.T @ grad_z
+        self._grad_b_current = np.sum(grad_z, axis=0, keepdims=True)
+        return grad_z @ self._W.T
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -303,7 +315,8 @@ class LinearLayer(Layer):
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        self._W = self._W - learning_rate * self._grad_W_current
+        self._b = self._b - learning_rate * self._grad_b_current
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -343,7 +356,19 @@ class MultiLayerNetwork:
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        self._layers = None # Need to initialise this
+        self._layers = []
+        in_dim = input_dim
+        for n_out, activation in zip(neurons, activations):
+            self._layers.append(LinearLayer(in_dim, n_out))
+            if activation == "sigmoid":
+                self._layers.append(SigmoidLayer())
+            elif activation == "relu":
+                self._layers.append(ReluLayer())
+            elif activation == "identity":
+                pass
+            else:
+                raise ValueError("Unknown activation function: {} -vincent".format(activation))
+            in_dim = n_out
         #######################################################################
         #                       ** END OF YOUR CODE **
         #######################################################################
@@ -367,7 +392,10 @@ class MultiLayerNetwork:
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        return np.zeros((1, self.neurons[-1])) # Dummy placeholder. Replace with your own code
+        out = x
+        for layer in self._layers:
+            out = layer(out)
+        return out
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -395,7 +423,10 @@ class MultiLayerNetwork:
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        grad = grad_z
+        for layer in reversed(self._layers):
+            grad = layer.backward(grad)
+        return grad
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -413,7 +444,8 @@ class MultiLayerNetwork:
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        for layer in self._layers:
+            layer.update_params(learning_rate)
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -593,7 +625,12 @@ class Preprocessor:
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        self._min = np.min(data, axis=0)
+        self._max = np.max(data, axis=0)
+        span = self._max - self._min
+        # Constant features have zero range. Keep them at 0 after scaling
+        # and restore the original constant value on revert.
+        self._span = np.where(span == 0, 1.0, span)
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -614,7 +651,7 @@ class Preprocessor:
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        return (data - self._min) / self._span
 
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -633,7 +670,7 @@ class Preprocessor:
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        pass
+        return data * self._span + self._min
 
         #######################################################################
         #                       ** END OF YOUR CODE **
