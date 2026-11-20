@@ -6,6 +6,15 @@ A neural networks coursework project for Machine Learning at Imperial College Lo
 
 This implementation builds on university-provided starter code, interfaces and datasets. It demonstrates machine learning fundamentals and practical implementation; it does not claim that every component is independently authored. The original assignment description is preserved in the [coursework brief](docs/COURSEWORK_ORIGINAL.md).
 
+## Assessment results (LabTS)
+
+**Automated tests: 40/40 (all passed)**, as recorded in the official `Final Tests` feedback. This figure refers specifically to the **automated/hidden-test score**, not necessarily the overall coursework mark including any manual assessment.
+
+- **Part 1 — NumPy neural networks: 20/20**, covering preprocessing, layers, activations, forward/backward passes, and gradient descent.
+- **Part 2 — PyTorch regressor: 20/20**, including general regressor tests (6/6), training performance (6/6), and held-out test performance (8/8).
+- **Recorded RMSE:** approximately **41,290** on training data and **52,472** on the held-out test data. The gap warrants attention to generalisation and is not a newly reproduced experiment.
+- See the [assessment feedback summary](docs/ASSESSMENT_FEEDBACK.md) for the instructor's comments and follow-up suggestions. The existing [coursework report](IC_Machine_Learning_Coursework_Report.pdf) remains in the repository.
+
 ## Core implementation
 
 ### Part 1: Neural networks in NumPy
@@ -58,7 +67,7 @@ Commands are derived from source entry points and the dependency file. This docu
 
 Useful interview discussion points include the matrix gradients in `LinearLayer.backward`, reverse-order gradient propagation, reuse of training preprocessing parameters, and the distinction between validation and final submission models.
 
-- Model metrics and LabTS results were not rechecked for this update; no unverified performance figures or coursework grades are claimed.
+- The 40/40 score and RMSE figures above are transcribed from the supplied official feedback; this documentation update did not rerun training, tests, or independently verify generalisation.
 - Evaluation uses a single random holdout; no cross-validation, baseline comparison or separate experiment report is provided.
 - Part 2 preprocessing targets the supplied housing data. Constant numeric columns, binary text categories and unseen categories need further handling.
 - Part 2 sets seeds in `fit`, but the network is normally initialized in the constructor beforehand, so this does not ensure end-to-end reproducibility.
