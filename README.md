@@ -13,7 +13,7 @@ Imperial College London（IC）Machine Learning 课程的神经网络作业：�
 - **Part 1 — NumPy Neural Networks：20/20**，包括预处理、线性层、激活函数、前反向传播及梯度下降。
 - **Part 2 — PyTorch Regressor：20/20**，包括通用回归测试（6/6）、训练集性能（6/6）、测试集性能（8/8）。
 - **最终测试记录的 RMSE：**训练集约 **41,290**，测试集约 **52,472**。两者存在泛化差距，不等于独立验证实验或新一轮复现实验。
-- 详细的教师评价和改进方向见 [Assessment feedback summary](docs/ASSESSMENT_FEEDBACK.md)。原有 [Coursework report](IC_Machine_Learning_Coursework_Report.pdf) 仍保留在仓库中。
+- 详细的教师评价和改进方向见 [Assessment feedback summary](docs/ASSESSMENT_FEEDBACK.md)。[作业报告](report/70050_CW1_Neural_Networks_Report.pdf)和[教师评分反馈](report/70050_CW1_Neural_Networks_Feedback.pdf)统一存放在 `report/` 文件夹中。
 
 ## 核心实现
 

@@ -1,6 +1,6 @@
 # Assessment feedback — COMP70050 Neural Networks
 
-Source: instructor's seven-page e-marking feedback for submission `zw726` (commit `854b5`). This document is a summary, **not a replacement for the original instructor-annotated PDF**.
+Source: [instructor's seven-page e-marking feedback](../report/70050_CW1_Neural_Networks_Feedback.pdf) for submission `zw726` (commit `854b5`). This document is a summary, **not a replacement for the original instructor-annotated PDF**.
 
 ## Automated tests
 

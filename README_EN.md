@@ -13,7 +13,7 @@ This implementation builds on university-provided starter code, interfaces and d
 - **Part 1 — NumPy neural networks: 20/20**, covering preprocessing, layers, activations, forward/backward passes, and gradient descent.
 - **Part 2 — PyTorch regressor: 20/20**, including general regressor tests (6/6), training performance (6/6), and held-out test performance (8/8).
 - **Recorded RMSE:** approximately **41,290** on training data and **52,472** on the held-out test data. The gap warrants attention to generalisation and is not a newly reproduced experiment.
-- See the [assessment feedback summary](docs/ASSESSMENT_FEEDBACK.md) for the instructor's comments and follow-up suggestions. The existing [coursework report](IC_Machine_Learning_Coursework_Report.pdf) remains in the repository.
+- See the [assessment feedback summary](docs/ASSESSMENT_FEEDBACK.md) for the instructor's comments and follow-up suggestions. The [coursework report](report/70050_CW1_Neural_Networks_Report.pdf) and [instructor feedback](report/70050_CW1_Neural_Networks_Feedback.pdf) are stored together in `report/`.
 
 ## Core implementation
 
