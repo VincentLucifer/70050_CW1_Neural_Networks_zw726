@@ -6,6 +6,15 @@ Imperial College London（IC）Machine Learning 课程的神经网络作业：�
 
 本项目基于学校提供的 starter code、接口与数据完成课程实现，用于展示机器学习基础与工程实践，并非所有代码均为独立原创。原始作业说明完整保留在 [Coursework brief](docs/COURSEWORK_ORIGINAL.md)。
 
+## 评测结果（LabTS）
+
+**自动测试：40/40（全部通过）**，依据课程提供的最终反馈文件（`Final Tests`）。这是 **automated/hidden tests** 的总分，不应直接理解为包含人工评阅在内的课程最终总成绩。
+
+- **Part 1 — NumPy Neural Networks：20/20**，包括预处理、线性层、激活函数、前反向传播及梯度下降。
+- **Part 2 — PyTorch Regressor：20/20**，包括通用回归测试（6/6）、训练集性能（6/6）、测试集性能（8/8）。
+- **最终测试记录的 RMSE：**训练集约 **41,290**，测试集约 **52,472**。两者存在泛化差距，不等于独立验证实验或新一轮复现实验。
+- 详细的教师评价和改进方向见 [Assessment feedback summary](docs/ASSESSMENT_FEEDBACK.md)。原有 [Coursework report](IC_Machine_Learning_Coursework_Report.pdf) 仍保留在仓库中。
+
 ## 核心实现
 
 ### Part 1：NumPy 神经网络
@@ -58,7 +67,7 @@ Part 1 示例训练 1,000 epochs；Part 2 入口分别训练两个 200-epoch 模
 
 面试讨论可从 `LinearLayer.backward` 的矩阵梯度、网络逆序传播、训练预处理参数的复用，以及验证模型与最终提交模型的区别展开。
 
-- 本次未复核模型指标或 LabTS 结果，不列出未经验证的性能数值或课程成绩。
+- 本 README 的 40/40 和 RMSE 来自课程提供的官方反馈文件；此次修改没有重新运行训练、测试或独立核验泛化性能。
 - 当前采用单次随机 holdout，未提供交叉验证、基线对比或独立实验报告。
 - Part 2 预处理主要面向提供的 housing 数据；常量数值列、二分类文本列和未见类别等输入边界仍需完善。
 - Part 2 在 `fit` 中设置种子，但网络通常已在构造函数中初始化，因此不足以保证端到端可复现。
